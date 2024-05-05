@@ -29,7 +29,7 @@ user_input = None
 
 dataname = ""
 
-app.config['UPLOAD_FOLDER'] = 'uploads/'  # Directory where files will be stored
+app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
 
 def remove_files_in_directory(directory):
     for filename in os.listdir(directory):
@@ -66,7 +66,11 @@ def file_upload():
         dataname = file.filename
         # filename = secure_filename(file.filename)
         filename = 'uploaded_file.csv'
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        upload_folder = app.config['UPLOAD_FOLDER']
+        if not os.path.exists(upload_folder):
+            os.makedirs(upload_folder)
+        filepath = file.save(os.path.join(upload_folder, file.filename))
+        # filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         df = pd.read_csv(filepath)
         headers = df.columns.tolist()
@@ -212,7 +216,6 @@ def process_key():
 
 @app.route('/test_stream', methods=['GET'])
 def test_stream():
-    print("Test stream endpoint accessed")
     return stream_output()
 
 @app.route('/')
