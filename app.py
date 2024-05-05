@@ -214,6 +214,10 @@ def process_key():
 def test_stream():
     return stream_output()
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
 if __name__ == '__main__':
     remove_files_in_directory("./static")
     app.run(debug=True, threaded=True)
