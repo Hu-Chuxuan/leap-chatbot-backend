@@ -212,6 +212,7 @@ def process_key():
 
 @app.route('/test_stream', methods=['GET'])
 def test_stream():
+    print("Test stream endpoint accessed")
     return stream_output()
 
 @app.route('/')
