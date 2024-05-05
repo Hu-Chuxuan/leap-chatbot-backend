@@ -70,7 +70,7 @@ def file_upload():
             os.makedirs(upload_folder)
         filepath = file.save(os.path.join(upload_folder, filename))
         # filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
+        # file.save(filepath)
         df = pd.read_csv(filepath)
         headers = df.columns.tolist()
         print("*******", headers)
