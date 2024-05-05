@@ -64,7 +64,6 @@ def file_upload():
     if file:
         global dataname
         dataname = file.filename
-        # filename = secure_filename(file.filename)
         filename = 'uploaded_file.csv'
         upload_folder = app.config['UPLOAD_FOLDER']
         if not os.path.exists(upload_folder):
