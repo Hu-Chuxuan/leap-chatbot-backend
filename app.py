@@ -29,7 +29,7 @@ user_input = None
 
 dataname = ""
 
-app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
+app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads/')
 
 def remove_files_in_directory(directory):
     for filename in os.listdir(directory):
