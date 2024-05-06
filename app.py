@@ -46,8 +46,15 @@ def save_results(table, filename):
 
 @app.route('/delete-files', methods=['POST'])
 def delete_files():
-    remove_files_in_directory('./static')
-    remove_files_in_directory("./uploads")
+    static_folder = app.config['STATIC_FOLDER']
+    if not os.path.exists(static_folder):
+        os.makedirs(static_folder)
+    remove_files_in_directory(static_folder)
+
+    upload_folder = app.config['UPLOAD_FOLDER']
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder)
+    remove_files_in_directory(upload_folder)
     global query_history
     query_history = {}
     global user_input
@@ -56,7 +63,10 @@ def delete_files():
 
 @app.route('/delete-dot-graph', methods=['POST'])
 def delete_dot_graph():
-    remove_files_in_directory('./static')
+    static_folder = app.config['STATIC_FOLDER']
+    if not os.path.exists(static_folder):
+        os.makedirs(static_folder)
+    remove_files_in_directory(static_folder)
     return jsonify({"message": "File deleted"})
 
 @app.route('/upload-csv', methods=['POST'])
@@ -148,7 +158,12 @@ def stream_output():
     while not count_trigger.is_set():
         time.sleep(0.1)
     # Create a new StringIO object to capture output
-    remove_files_in_directory("./static")
+    
+    static_folder = app.config['STATIC_FOLDER']
+    if not os.path.exists(static_folder):
+        os.makedirs(static_folder)
+    remove_files_in_directory(static_folder)
+    
     captured_output = io.StringIO()
     original_stdout = sys.stdout  # Backup the original stdout
     sys.stdout = captured_output  # Redirect stdout to the StringIO object
@@ -228,7 +243,7 @@ if __name__ == '__main__':
     static_folder = app.config['STATIC_FOLDER']
     if not os.path.exists(static_folder):
         os.makedirs(static_folder)
-    remove_files_in_directory("./static")
+    remove_files_in_directory(static_folder)
     app.run(debug=True, threaded=True)
 
 
