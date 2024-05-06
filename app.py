@@ -68,7 +68,9 @@ def file_upload():
         upload_folder = app.config['UPLOAD_FOLDER']
         if not os.path.exists(upload_folder):
             os.makedirs(upload_folder)
-        filepath = file.save(os.path.join(upload_folder, filename))
+
+        filepath = os.path.join(upload_folder, filename)
+        file.save(filepath)
         # filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         # file.save(filepath)
         df = pd.read_csv(filepath)
