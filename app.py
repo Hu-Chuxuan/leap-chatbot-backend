@@ -57,7 +57,8 @@ def delete_files():
         os.makedirs(upload_folder)
     remove_files_in_directory(upload_folder)
     global query_history
-    query_history = {}
+    # query_history = {}
+    query_history = {"hi":"xxx"}
     global user_input
     user_input = None
     return jsonify({"message": "File deleted"})
