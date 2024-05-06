@@ -119,13 +119,12 @@ def query_wrapper():
     
     if user_msg in query_history:
         print("########## Warning: It seems like we already provided an answer for this query, do you want a new version?")
-        print("*****Waiting..")
-        # while True:
-        #     print(1)
+
         while not user_input_event.is_set():
             time.sleep(0.1)
-        print("*****Finished waiting..")
         user_input_event.clear()
+        print(user_input)
+        global user_input
         if not user_input:
             print("CACHE:", query_history[user_msg])
             user_input = None
@@ -223,7 +222,7 @@ def warning():
     global user_input
     user_input = data.get('warn', None)
     user_input_event.set()
-    print("*****user_input!")
+    print("the user_input is: ", user_input)
     return jsonify({"message": "Counting started"})
 
 @app.route('/leap-warning', methods=['POST'])
