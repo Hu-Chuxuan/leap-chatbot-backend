@@ -120,6 +120,8 @@ def query_wrapper():
     if user_msg in query_history:
         print("########## Warning: It seems like we already provided an answer for this query, do you want a new version?")
         print("*****Waiting..")
+        while True:
+            print(1)
         while not user_input_event.is_set():
             time.sleep(0.1)
         print("*****Finished waiting..")
