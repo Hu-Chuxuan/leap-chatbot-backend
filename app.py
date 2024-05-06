@@ -30,6 +30,7 @@ user_input = None
 dataname = ""
 
 app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads/')
+app.config['STATIC_FOLDER'] = os.getenv('STATIC_FOLDER', 'static/')
 
 def remove_files_in_directory(directory):
     for filename in os.listdir(directory):
@@ -224,6 +225,9 @@ def hello_world():
     return 'Hello, World!'
 
 if __name__ == '__main__':
+    static_folder = app.config['STATIC_FOLDER']
+    if not os.path.exists(static_folder):
+        os.makedirs(static_folder)
     remove_files_in_directory("./static")
     app.run(debug=True, threaded=True)
 
