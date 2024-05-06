@@ -217,10 +217,10 @@ def start_count():
 
 @app.route('/warning', methods=['POST'])
 def warning():
-    data = request.get_json()
-    global user_input
-    user_input = data.get('warn', None)
-    user_input_event.set()
+    # data = request.get_json()
+    # global user_input
+    # user_input = data.get('warn', None)
+    # user_input_event.set()
     print("*****Event set!")
     return jsonify({"message": "Counting started"})
 
