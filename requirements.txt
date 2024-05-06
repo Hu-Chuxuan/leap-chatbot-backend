@@ -1,6 +1,6 @@
 Flask
 Gunicorn
-autopipeline==0.1.344
+autopipeline==0.1.345
 Flask==3.0.3
 Flask_Cors==4.0.0
 pandas==2.0.3
