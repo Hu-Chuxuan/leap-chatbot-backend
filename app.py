@@ -26,7 +26,6 @@ desc = ""
 
 query_history={"hi":"xxx"}
 user_input = None
-user_input_event = threading.Event()
 
 dataname = ""
 
@@ -120,11 +119,11 @@ def query_wrapper():
     if user_msg in query_history:
         print("########## Warning: It seems like we already provided an answer for this query, do you want a new version?")
         print("*****Waiting..")
-        user_input_event.wait()  # Blocks until the event is set from elsewhere
-        print("*****Finished waiting!")
-        user_input_event.clear()  # Reset the event for future use
-
+        global user_input
+        while user_input == None:
+            time.sleep(0.1)
         if not user_input:
+            print("*****finished waiting..")
             print("CACHE:", query_history[user_msg])
             user_input = None
             return
@@ -217,11 +216,10 @@ def start_count():
 
 @app.route('/warning', methods=['POST'])
 def warning():
-    # data = request.get_json()
-    # global user_input
-    # user_input = data.get('warn', None)
-    # user_input_event.set()
-    print("*****Event set!")
+    data = request.get_json()
+    global user_input
+    user_input = data.get('warn', None)
+    print("*****user_input!")
     return jsonify({"message": "Counting started"})
 
 @app.route('/leap-warning', methods=['POST'])
