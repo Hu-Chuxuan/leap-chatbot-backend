@@ -124,7 +124,6 @@ def query_wrapper():
             time.sleep(0.1)
         user_input_event.clear()
         global user_input
-        print(user_input)
         if not user_input:
             print("CACHE:", query_history[user_msg])
             user_input = None
@@ -222,7 +221,6 @@ def warning():
     global user_input
     user_input = data.get('warn', None)
     user_input_event.set()
-    print("the user_input is: ", user_input)
     return jsonify({"message": "Counting started"})
 
 @app.route('/leap-warning', methods=['POST'])
