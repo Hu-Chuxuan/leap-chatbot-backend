@@ -123,8 +123,8 @@ def query_wrapper():
         while not user_input_event.is_set():
             time.sleep(0.1)
         user_input_event.clear()
-        print(user_input)
         global user_input
+        print(user_input)
         if not user_input:
             print("CACHE:", query_history[user_msg])
             user_input = None
