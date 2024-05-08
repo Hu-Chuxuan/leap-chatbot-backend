@@ -24,9 +24,11 @@ count_trigger = threading.Event()
 user_msg = ""
 desc = ""
 
-query_history={"hi":"xxx"}
+query_history={}
 user_input = None
 user_input_event = threading.Event()
+
+occupied = False
 
 dataname = ""
 
@@ -58,9 +60,15 @@ def delete_files():
     remove_files_in_directory(upload_folder)
     global query_history
     # query_history = {}
-    query_history = {"hi":"xxx"}
+    query_history = {}
     global user_input
     user_input = None
+    global occupied
+    occupied = False
+
+    autopipeline.api_key = None
+    autopipeline.organization = None
+    
     return jsonify({"message": "File deleted"})
 
 @app.route('/delete-dot-graph', methods=['POST'])
@@ -231,6 +239,10 @@ def leap_warning():
 
 @app.route('/process_key', methods=['POST'])
 def process_key():
+    global occupied
+    if occupied:
+        return jsonify({"message": "FULL"})
+    occupied = True
     data = request.get_json()
     autopipeline.api_key = data.get('apikey')
     autopipeline.organization = data.get('org')
