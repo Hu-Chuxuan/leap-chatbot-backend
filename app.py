@@ -140,7 +140,12 @@ def query_wrapper():
 
     print("########## Feedback: Got it! 🫡 Working on it now...")
 
-    result, augmented_table = leap_demo(user_msg, table, desc, verbose = True, saving_mode=False)
+    try: 
+        result, augmented_table = leap_demo(user_msg, table, desc, verbose = True, saving_mode=False)
+    except Exception as e:
+        print("########## Feedback: The following error occurred during execution 😭:", str(e))
+        print("########## Feedback: Please ensure that 🛜 you can access GPT; 🔑 your OpenAI API Key is correctly entered.", str(e))
+        return
 
     if result is not None:
         autopipeline.input = None
