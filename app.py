@@ -143,7 +143,8 @@ def query_wrapper():
     try: 
         result, augmented_table = leap_demo(user_msg, table, desc, verbose = True, saving_mode=False)
     except Exception as e:
-        print("########## FeedbackError: The following error occurred during execution 😭: " + str(e) + "\nPlease ensure that\n🛜 your internet connection is good;\n🔑 your OpenAI API Key (as well as your ORG ID, if any) has been correctly entered.\nYou can reload and we will take you back to the login page. 🤞")
+        print("########## Feedback: The following error occurred during execution 😭: " + str(e))
+        print("########## Feedback: Please ensure that 🛜 your internet connection is good; 🔑 your OpenAI API Key (as well as your ORG ID, if any) has been correctly entered. You can reload and we will take you back to the login page. 🤞")
         # print("########## Feedback: Please ensure that 🛜 your internet connection is good; 🔑 your OpenAI API Key (as well as your ORG ID, if any) has been correctly entered.")
         return
 
