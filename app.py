@@ -54,10 +54,9 @@ def save_results(table, filename):
 
 @app.route('/delete-files', methods=['POST'])
 def delete_files():
-    global occupied
-    if occupied:
-        return jsonify({"message": "Some is using. Bye!"})
-    occupied = False
+    # if occupied:
+    #     return jsonify({"message": "Someone else is using. Bye!"})
+    
     static_folder = app.config['STATIC_FOLDER']
     if not os.path.exists(static_folder):
         os.makedirs(static_folder)
@@ -79,6 +78,9 @@ def delete_files():
 
     autopipeline.api_key = None
     autopipeline.organization = None
+
+    global occupied
+    occupied = False
     
     return jsonify({"message": "File deleted"})
 
