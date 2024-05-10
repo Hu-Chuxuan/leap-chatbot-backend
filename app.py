@@ -57,6 +57,7 @@ def delete_files():
     global occupied
     if occupied:
         return jsonify({"message": "Some is using. Bye!"})
+    occupied = False
     static_folder = app.config['STATIC_FOLDER']
     if not os.path.exists(static_folder):
         os.makedirs(static_folder)
@@ -71,8 +72,6 @@ def delete_files():
     query_history = {}
     global user_input
     user_input = None
-    global occupied
-    occupied = False
     global key
     key = None
     global cipher
