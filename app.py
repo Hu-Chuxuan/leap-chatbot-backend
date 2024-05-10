@@ -150,6 +150,7 @@ def query_wrapper():
     print("########## Feedback: Got it! 🫡 Working on it now...")
 
     try: 
+        print("*****cipher: ", cipher)
         result, augmented_table = leap_demo(user_msg, table, desc, cipher, verbose = True, saving_mode=False)
     except Exception as e:
         print("########## Feedback: The following error occurred during execution 😭: " + str(e))
@@ -269,7 +270,6 @@ def process_key():
     org = data.get('org')
 
     encrypted_api_key = cipher.encrypt(apikey.encode())
-    print("*************encrypted key: ", encrypted_api_key)
     encrypted_org = cipher.encrypt(org.encode())
 
     autopipeline.api_key = encrypted_api_key
