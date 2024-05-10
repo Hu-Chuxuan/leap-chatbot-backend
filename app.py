@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, Response, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
+from cryptography.fernet import Fernet
 
 from autopipeline.data import QUIET_ML
 import autopipeline
@@ -31,6 +32,10 @@ user_input_event = threading.Event()
 occupied = False
 
 dataname = ""
+
+# for decryption
+key = None
+cipher = None
 
 app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads/')
 app.config['STATIC_FOLDER'] = os.getenv('STATIC_FOLDER', 'static/')
@@ -65,6 +70,10 @@ def delete_files():
     user_input = None
     global occupied
     occupied = False
+    global key
+    key = None
+    global cipher
+    cipher = None
 
     autopipeline.api_key = None
     autopipeline.organization = None
@@ -141,7 +150,7 @@ def query_wrapper():
     print("########## Feedback: Got it! 🫡 Working on it now...")
 
     try: 
-        result, augmented_table = leap_demo(user_msg, table, desc, verbose = True, saving_mode=False)
+        result, augmented_table = leap_demo(user_msg, table, desc, cipher, verbose = True, saving_mode=False)
     except Exception as e:
         print("########## Feedback: The following error occurred during execution 😭: " + str(e))
         print("########## Feedback: Please ensure that 🛜 your internet connection is good; 🔑 your OpenAI API Key (as well as your ORG ID, if any) has been correctly entered. You can reload, and I will take you back to the login page. 🤞")
@@ -249,9 +258,23 @@ def process_key():
     if occupied:
         return jsonify({"message": "FULL"})
     occupied = True
+
+    global key
+    key = Fernet.generate_key()
+    global cipher
+    cipher = Fernet(key)
+
     data = request.get_json()
-    autopipeline.api_key = data.get('apikey')
-    autopipeline.organization = data.get('org')
+    apikey = data.get('apikey')
+    org = data.get('org')
+
+    encrypted_api_key = cipher.encrypt(apikey.encode())
+    print("*************encrypted key: ", encrypted_api_key)
+    encrypted_org = cipher.encrypt(org.encode())
+
+    autopipeline.api_key = encrypted_api_key
+    autopipeline.organization = encrypted_org
+
     return jsonify({"message": "API key and ORG id recorded"})
 
 @app.route('/test_stream', methods=['GET'])

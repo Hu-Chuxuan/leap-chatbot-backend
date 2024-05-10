@@ -1,6 +1,6 @@
 Flask
 Gunicorn
-autopipeline==0.1.348
+autopipeline==0.1.349
 Flask==3.0.3
 Flask_Cors==4.0.0
 pandas==2.0.3
@@ -9,3 +9,4 @@ scipy==1.11.1
 gensim==4.3.0
 numpy==1.24.3
 transformers==4.32.1
+cryptography
