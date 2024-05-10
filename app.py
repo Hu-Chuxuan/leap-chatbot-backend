@@ -86,7 +86,7 @@ def delete_dot_graph():
     if not os.path.exists(static_folder):
         os.makedirs(static_folder)
     remove_files_in_directory(static_folder)
-    return jsonify({"message": "File deleted"})
+    return jsonify({"message": "Dot graph deleted"})
 
 @app.route('/upload-csv', methods=['POST'])
 def file_upload():
@@ -151,7 +151,7 @@ def query_wrapper():
 
     try: 
         global cipher
-        print("********cipher: ", cipher)
+        # print("********cipher: ", cipher)
         result, augmented_table = leap_demo(user_msg, table, desc, cipher, verbose = True, saving_mode=False)
     except Exception as e:
         print("########## Feedback: The following error occurred during execution 😭: " + str(e))
